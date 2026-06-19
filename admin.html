@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EliteTutors - Administrative Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#ec4899">
+</head>
+<body>
+
+  <!-- Background Glow Effects -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2" style="background: var(--admin-color);"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="admin.html" class="logo" style="background: linear-gradient(135deg, var(--admin-color), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--admin-color)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        AdminPanel
+      </a>
+      
+      <div class="nav-actions">
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon" style="display: none;">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <div id="nav-auth-section">
+          <!-- Populated by JS: shows log out once authenticated -->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================== -->
+  <!-- 1. DEDICATED ADMIN LOGIN (Default View)       -->
+  <!-- ============================================== -->
+  <section id="admin-login-view" class="view-section active" style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
+    <div class="card" style="width: 100%; max-width: 450px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔑</div>
+        <h2>Administrative Login</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Authorized personnel access only</p>
+      </div>
+
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label class="form-label">Admin Username</label>
+          <input type="text" class="form-control" id="login-username" placeholder="Username..." required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        
+        <button type="submit" class="btn btn-admin" style="width: 100%; margin-top: 1.5rem; display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+          Access Dashboard
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 2. ADMIN DASHBOARD VIEW (Shown after Auth)    -->
+  <!-- ============================================== -->
+  <section id="admin-dashboard-view" class="view-section" style="display: none;">
+    <div class="container">
+      <div class="dash-banner admin-banner" style="border-left: 4px solid var(--admin-color);">
+        <div class="banner-welcome">
+          <h2>Welcome, Administrator!</h2>
+          <p>Review registered applications, update portal settings, and manage educational courses.</p>
+        </div>
+        <div class="banner-badge">
+          <span class="badge badge-error" style="background: rgba(236, 72, 153, 0.15); color: var(--admin-color);">Admin Portal</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Sidebar Navigation -->
+        <div class="card dashboard-sidebar">
+          <div class="sidebar-profile">
+            <div class="profile-pic-container">
+              <div class="sidebar-profile-pic avatar-placeholder" style="background: linear-gradient(135deg, var(--admin-color), var(--primary))">A</div>
+            </div>
+            <h3>Portal Admin</h3>
+            <p>Role: Superuser</p>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="sidebar-menu-item active" data-tab="admin-overview" onclick="adminApp.switchTab('overview')">
+              📊 Analytics Overview
+            </li>
+            <li class="sidebar-menu-item" data-tab="admin-teachers" onclick="adminApp.switchTab('teachers')">
+              👩‍🏫 Teacher Accounts
+            </li>
+            <li class="sidebar-menu-item" data-tab="admin-students" onclick="adminApp.switchTab('students')">
+              🧑‍🎓 Student Accounts
+            </li>
+            <li class="sidebar-menu-item" data-tab="admin-subjects" onclick="adminApp.switchTab('subjects')">
+              📚 Manage Subjects
+            </li>
+          </ul>
+        </div>
+
+        <!-- Main Dashboard Panel -->
+        <div class="dashboard-main">
+          <!-- TAB 1: Analytical Overview -->
+          <div id="tab-admin-overview" class="dashboard-tab-content active">
+            <div class="analytics-grid">
+              <div class="card analytic-card">
+                <div class="analytic-info">
+                  <h4>Total Teachers</h4>
+                  <div class="value" id="admin-stat-teachers">0</div>
+                </div>
+                <div class="analytic-icon">👩‍🏫</div>
+              </div>
+              <div class="card analytic-card">
+                <div class="analytic-info">
+                  <h4>Total Students</h4>
+                  <div class="value" id="admin-stat-students">0</div>
+                </div>
+                <div class="analytic-icon">🧑‍🎓</div>
+              </div>
+              <div class="card analytic-card">
+                <div class="analytic-info">
+                  <h4>Pending Approvals</h4>
+                  <div class="value" id="admin-stat-pending" style="color: var(--warning);">0</div>
+                </div>
+                <div class="analytic-icon">⚠️</div>
+              </div>
+              <div class="card analytic-card">
+                <div class="analytic-info">
+                  <h4>Active Courses</h4>
+                  <div class="value" id="admin-stat-subjects">0</div>
+                </div>
+                <div class="analytic-icon">📚</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Teachers Management -->
+          <div id="tab-admin-teachers" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Teacher Accounts Management</h2>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Teacher Name</th>
+                      <th>Experience / Age</th>
+                      <th>Specialty Subjects</th>
+                      <th>Email / Contact</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-teachers-table-body">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Students Management -->
+          <div id="tab-admin-students" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Student Accounts Management</h2>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th>Grade Level</th>
+                      <th>Contact / Email</th>
+                      <th>Interests</th>
+                      <th>Address</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-students-table-body">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: Subject Editor -->
+          <div id="tab-admin-subjects" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Manage Subject Systems</h2>
+              <p class="form-label" style="margin-bottom: 1.5rem;">Add or remove course subjects available for teacher registration and student browsing.</p>
+              
+              <div class="subject-manager-box">
+                <div>
+                  <h4 style="margin-bottom: 0.5rem;">Current Teaching Subjects</h4>
+                  <div class="subject-pills" id="admin-subject-pills-list">
+                    <!-- Rendered via JS -->
+                  </div>
+                </div>
+                
+                <div class="card" style="padding: 1.25rem; background: var(--bg-input);">
+                  <h4 style="margin-bottom: 1rem;">Add New Subject</h4>
+                  <form id="admin-add-subject-form">
+                    <div class="form-group">
+                      <label class="form-label">Subject Title</label>
+                      <input type="text" class="form-control" name="subject_title" placeholder="e.g. Organic Chemistry" required pattern="[a-zA-Z\s\-']{2,50}" title="Subject title must only contain letters, spaces, dashes, or apostrophes (2-50 chars)">
+                    </div>
+                    <button type="submit" class="btn btn-admin" style="width: 100%;">Create Subject</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-holder"></div>
+
+  <!-- Script Modules -->
+  <script src="database.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

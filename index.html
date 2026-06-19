@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EliteTutors - Premium Tuition Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#6366f1">
+</head>
+<body>
+
+  <!-- Background Glow Effects -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo" id="nav-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        EliteTutors
+      </a>
+      
+      <div class="nav-actions">
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon" style="display: none;">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Dynamic User Nav Item -->
+        <div id="nav-auth-section">
+          <!-- Populated by JS (Login button OR User badge + Logout) -->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================== -->
+  <!-- 1. LANDING PAGE VIEW                           -->
+  <!-- ============================================== -->
+  <section id="view-landing" class="view-section active">
+    <div class="container hero-wrapper">
+      <div class="hero-text">
+        <h1>Find Expert Tutors For Your Success</h1>
+        <p>A premium platform connecting top-tier educators with students. Learn at your own pace, master complex subjects, and achieve academic excellence.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" onclick="app.showAuthModal('student')">Get Started</button>
+          <button class="btn btn-secondary btn-lg" id="btn-browse-landing">Browse Tutors</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3 id="stat-teachers-count">50+</h3>
+            <p>Expert Tutors</p>
+          </div>
+          <div class="stat-item">
+            <h3 id="stat-students-count">1,200+</h3>
+            <p>Students</p>
+          </div>
+          <div class="stat-item">
+            <h3>98%</h3>
+            <p>Satisfaction</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-cards-container">
+        <!-- Student Access Card -->
+        <div class="card role-card student-card" onclick="app.showAuthModal('student')">
+          <div class="role-icon">🧑‍🎓</div>
+          <div class="role-details">
+            <h3>I am a Student</h3>
+            <p>Find experienced tutors, request classes, and boost your performance.</p>
+          </div>
+        </div>
+
+        <!-- Teacher Access Card -->
+        <div class="card role-card teacher-card" onclick="app.showAuthModal('teacher')">
+          <div class="role-icon">👩‍🏫</div>
+          <div class="role-details">
+            <h3>I am a Teacher</h3>
+            <p>Create your teaching profile, list subjects, and accept student enquiries.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 2. STUDENT DASHBOARD VIEW                      -->
+  <!-- ============================================== -->
+  <section id="view-student" class="view-section">
+    <div class="container">
+      <div class="dash-banner student-banner">
+        <div class="banner-welcome">
+          <h2 id="student-welcome-title">Welcome back, Student!</h2>
+          <p>Explore matching tutors and request support in subjects you need help with.</p>
+        </div>
+        <div class="banner-badge">
+          <span class="badge badge-success">Student Portal</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Sidebar Navigation -->
+        <div class="card dashboard-sidebar">
+          <div class="sidebar-profile">
+            <div class="profile-pic-container">
+              <div class="sidebar-profile-pic avatar-placeholder" id="student-sidebar-avatar">S</div>
+            </div>
+            <h3 id="student-sidebar-name">Student Name</h3>
+            <p id="student-sidebar-grade">Grade Level</p>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="sidebar-menu-item active" data-tab="student-browse" onclick="app.switchTab('student', 'browse')">
+              🔍 Find Tutors
+            </li>
+            <li class="sidebar-menu-item" data-tab="student-requests" onclick="app.switchTab('student', 'requests')">
+              📥 My Requests
+            </li>
+            <li class="sidebar-menu-item" data-tab="student-profile" onclick="app.switchTab('student', 'profile')">
+              ⚙️ Edit Profile
+            </li>
+          </ul>
+        </div>
+
+        <!-- Main Dashboard Panel -->
+        <div class="dashboard-main">
+          <!-- TAB 1: Browse Tutors -->
+          <div id="tab-student-browse" class="dashboard-tab-content active">
+            <div class="filter-search-bar">
+              <div class="search-input-wrapper">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="form-control" id="search-tutor-name" placeholder="Search tutors by name or keyword...">
+              </div>
+              <select class="filter-select" id="filter-tutor-subject">
+                <option value="">All Subjects</option>
+              </select>
+              <select class="filter-select" id="filter-tutor-experience">
+                <option value="">Any Experience</option>
+                <option value="2">2+ Years</option>
+                <option value="5">5+ Years</option>
+                <option value="10">10+ Years</option>
+              </select>
+            </div>
+
+            <div class="tutors-grid" id="tutors-list-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- TAB 2: My Tuition Requests -->
+          <div id="tab-student-requests" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Your Requested Tuitions</h2>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Teacher</th>
+                      <th>Subjects</th>
+                      <th>Contact Info</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-requests-table-body">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Edit Profile -->
+          <div id="tab-student-profile" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Update Student Profile</h2>
+              <form id="student-profile-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" pattern="[a-zA-Z\s.']{2,50}" title="Only letters, spaces, dots, and apostrophes are allowed (2-50 chars)" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" required>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                  <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input type="number" class="form-control" name="age" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Grade / Class Level</label>
+                    <input type="text" class="form-control" name="grade" placeholder="e.g. Grade 10, Class A" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="contact" pattern="^[+]?[0-9\s\-()]{7,20}$" title="Only numbers, spaces, dashes, parentheses, or a leading '+' are allowed (7 to 20 characters)" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Residential Address</label>
+                  <input type="text" class="form-control" name="address" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Brief Bio / Educational Goals</label>
+                  <textarea class="form-control" name="bio" placeholder="Tell us about what subjects you want to focus on..." required></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Interested Subjects</label>
+                  <div class="checkbox-group" id="student-interest-subjects-container">
+                    <!-- Checkboxes rendered via JS -->
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Save Changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 3. TEACHER DASHBOARD VIEW                      -->
+  <!-- ============================================== -->
+  <section id="view-teacher" class="view-section">
+    <div class="container">
+      <div class="dash-banner teacher-banner">
+        <div class="banner-welcome">
+          <h2 id="teacher-welcome-title">Welcome back, Professor!</h2>
+          <p>Review incoming requests and manage student communication details here.</p>
+        </div>
+        <div class="banner-badge" id="teacher-approval-badge-container">
+          <!-- Approval Status Badge rendered by JS -->
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Sidebar Navigation -->
+        <div class="card dashboard-sidebar">
+          <div class="sidebar-profile">
+            <div class="profile-pic-container">
+              <img src="" alt="Teacher Profile" class="sidebar-profile-pic" id="teacher-sidebar-pic" style="display:none;">
+              <div class="sidebar-profile-pic avatar-placeholder" id="teacher-sidebar-avatar">T</div>
+            </div>
+            <h3 id="teacher-sidebar-name">Teacher Name</h3>
+            <p id="teacher-sidebar-experience">0 Years Experience</p>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="sidebar-menu-item active" data-tab="teacher-enquiries" onclick="app.switchTab('teacher', 'enquiries')">
+              📥 Student Enquiries
+            </li>
+            <li class="sidebar-menu-item" data-tab="teacher-students" onclick="app.switchTab('teacher', 'students')">
+              🎓 Connected Students
+            </li>
+            <li class="sidebar-menu-item" data-tab="teacher-profile" onclick="app.switchTab('teacher', 'profile')">
+              ⚙️ Edit Profile
+            </li>
+          </ul>
+        </div>
+
+        <!-- Main Dashboard Panel -->
+        <div class="dashboard-main">
+          <!-- TAB 1: Enquiries -->
+          <div id="tab-teacher-enquiries" class="dashboard-tab-content active">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Incoming Tuition Enquiries</h2>
+              <div class="enquiry-list" id="teacher-enquiries-list">
+                <!-- Enquiries rendered via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Connected Students -->
+          <div id="tab-teacher-students" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">My Active Students</h2>
+              <p class="form-label" style="margin-bottom: 1.5rem;">These students are connected with you and can see your profile contacts.</p>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Class/Grade</th>
+                      <th>Contact Details</th>
+                      <th>Address</th>
+                      <th>Goals/Bio</th>
+                    </tr>
+                  </thead>
+                  <tbody id="teacher-students-table-body">
+                    <!-- Students rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Edit Profile -->
+          <div id="tab-teacher-profile" class="dashboard-tab-content">
+            <div class="card">
+              <h2 style="margin-bottom: 1.5rem;">Update Teacher Profile</h2>
+              <form id="teacher-profile-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" pattern="[a-zA-Z\s.']{2,50}" title="Only letters, spaces, dots, and apostrophes are allowed (2-50 chars)" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" required>
+                  </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                  <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input type="number" class="form-control" name="age" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Years of Experience</label>
+                    <input type="number" class="form-control" name="experience" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="contact" pattern="^[+]?[0-9\s\-()]{7,20}$" title="Only numbers, spaces, dashes, parentheses, or a leading '+' are allowed (7 to 20 characters)" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Institute / Home Address</label>
+                  <input type="text" class="form-control" name="address" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Upload Profile Image</label>
+                  <div class="upload-container" id="teacher-image-drag-area">
+                    <div class="upload-icon">📷</div>
+                    <p style="font-weight:600;">Drag and drop or click to upload photo</p>
+                    <p style="font-size:0.8rem; color:var(--text-muted);">Supports JPG, PNG (Max 500kb)</p>
+                    <img src="" id="teacher-image-preview" class="upload-preview" alt="Preview Image">
+                    <input type="file" id="teacher-image-file-input" accept="image/*" style="display:none;">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Teacher Bio & Methodology</label>
+                  <textarea class="form-control" name="bio" placeholder="Write a short description about yourself, subjects, and teaching styles..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Subject Specialties (Select all you can teach)</label>
+                  <div class="checkbox-group" id="teacher-specialty-subjects-container">
+                    <!-- Checkboxes rendered via JS -->
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Save Profile Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin panel removed from index.html and moved to admin.html -->
+
+  <!-- ============================================== -->
+  <!-- MODAL: LOGIN / AUTH MODAL                      -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-auth">
+    <div class="card modal-content">
+      <div class="modal-header">
+        <h2 id="auth-modal-title">Sign In to Platform</h2>
+        <div class="modal-close" onclick="app.closeModals()">&times;</div>
+      </div>
+      
+      <!-- Role selector tabs in modal -->
+      <div class="auth-tabs" id="auth-role-tabs">
+        <div class="auth-tab student active" onclick="app.setAuthModalRole('student')">Student</div>
+        <div class="auth-tab teacher" onclick="app.setAuthModalRole('teacher')">Teacher</div>
+      </div>
+
+      <!-- General Login Form -->
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" id="login-username" placeholder="Enter username..." required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="login-password" placeholder="••••••••" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 1rem;" id="btn-login-submit">
+          Sign In
+        </button>
+
+        <p style="text-align:center; font-size:0.9rem; color:var(--text-muted); margin-top: 1.5rem;" id="login-signup-link-container">
+          Don't have an account? 
+          <a href="#" style="color: var(--primary); font-weight:600;" onclick="app.switchToRegisterModal()">Register here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: REGISTRATION FORM                       -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-register">
+    <div class="card modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>Create an Account</h2>
+        <div class="modal-close" onclick="app.closeModals()">&times;</div>
+      </div>
+
+      <!-- Registration role switcher tabs -->
+      <div class="auth-tabs">
+        <div class="auth-tab student active" id="register-tab-student" onclick="app.setRegisterModalRole('student')">Student Profile</div>
+        <div class="auth-tab teacher" id="register-tab-teacher" onclick="app.setRegisterModalRole('teacher')">Teacher Profile</div>
+      </div>
+
+      <!-- STUDENT REGISTRATION FORM -->
+      <form id="register-student-form">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="name" placeholder="John Doe" pattern="[a-zA-Z\s.']{2,50}" title="Only letters, spaces, dots, and apostrophes are allowed (2-50 chars)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" name="email" placeholder="john@example.com" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="john123" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input type="number" class="form-control" name="age" min="5" max="100" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Grade / Class Level</label>
+            <input type="text" class="form-control" name="grade" placeholder="e.g. Grade 12" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contact Phone Number</label>
+          <input type="text" class="form-control" name="contact" placeholder="+1 (555) 123-4567" pattern="^[+]?[0-9\s\-()]{7,20}$" title="Only numbers, spaces, dashes, parentheses, or a leading '+' are allowed (7 to 20 characters)" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Residential Address</label>
+          <input type="text" class="form-control" name="address" placeholder="123 Main St, Springfield" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Brief Bio / Educational Targets</label>
+          <textarea class="form-control" name="bio" placeholder="Explain what you hope to achieve and which subjects you require most help with..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Preferred Subjects of Interest (Select options)</label>
+          <div class="checkbox-group" id="register-student-subjects-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Create Student Account
+        </button>
+      </form>
+
+      <!-- TEACHER REGISTRATION FORM -->
+      <form id="register-teacher-form" style="display:none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Dr. Sarah Jenkins" pattern="[a-zA-Z\s.']{2,50}" title="Only letters, spaces, dots, and apostrophes are allowed (2-50 chars)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" name="email" placeholder="sarah@tutors.com" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="sarahj" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input type="number" class="form-control" name="age" min="18" max="100" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teaching Experience (Years)</label>
+            <input type="number" class="form-control" name="experience" min="0" max="60" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contact Phone Number</label>
+          <input type="text" class="form-control" name="contact" placeholder="+1 (555) 321-7654" pattern="^[+]?[0-9\s\-()]{7,20}$" title="Only numbers, spaces, dashes, parentheses, or a leading '+' are allowed (7 to 20 characters)" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tutoring / Home Address</label>
+          <input type="text" class="form-control" name="address" placeholder="456 Oak Ave, Boston, MA" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Upload Profile Photo</label>
+          <div class="upload-container" id="register-teacher-image-drag-area">
+            <div class="upload-icon">📷</div>
+            <p style="font-weight:600;">Drag and drop or click to upload photo</p>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Supports JPG, PNG (Max 500kb)</p>
+            <img src="" id="register-teacher-image-preview" class="upload-preview" alt="Preview Image">
+            <input type="file" id="register-teacher-image-file-input" accept="image/*" style="display:none;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Brief Bio / Teaching Methodology</label>
+          <textarea class="form-control" name="bio" placeholder="Provide a summary of your professional teaching background, philosophy, and class structure..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Taught Subjects</label>
+          <div class="checkbox-group" id="register-teacher-subjects-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Register as Teacher
+        </button>
+      </form>
+
+      <p style="text-align:center; font-size:0.9rem; color:var(--text-muted); margin-top: 1.5rem;">
+        Already have an account? 
+        <a href="#" style="color: var(--primary); font-weight:600;" onclick="app.switchToLoginModal()">Sign in instead</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-holder"></div>
+
+  <!-- Script Modules -->
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
